@@ -24,6 +24,8 @@ async function setup() {
   else if (diff === "medium") { totalPairs = 6; timeLeft = 60; }
   else { totalPairs = 9; timeLeft = 90; }
 
+  // How the Pokémon API was used to retrieve the images for the cards________________________________________________
+
   // 2. Fetch the list of Pokémon
   const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=100");
   const data = await response.json();
@@ -45,6 +47,8 @@ async function setup() {
     `);
   }
 
+  // How the Pokémon API was used to retrieve the images for the cards________________________________________________
+
   // 5. Initialize game variables
   let firstCard = undefined;
   let secondCard = undefined;
@@ -54,18 +58,26 @@ async function setup() {
   let timer;
   consecutiveMatches = 0; // Reset streak on new game
 
+  // How the status section is calculated and displayed_____________________________________________________
+  // Variable Initialization
   $("#clicks").text(clicks);
   $("#matched").text(matchedPairs);
   $("#left").text(totalPairs);
   $("#time").text(timeLeft);
+  // Variable Initialization
+  // How the status section is calculated and displayed_____________________________________________________
   $(".card").removeClass("flip").off("click");
   $("#stats_header h2").html(`Clicks: <span id="clicks">0</span> | Matched: <span id="matched">0</span> | Left: <span id="left">${totalPairs}</span> | Total Pairs: ${totalPairs} | Time Left: <span id="time">${timeLeft}</span>s`);
 
+// How the status section is calculated and displayed_____________________________________________________
+// Update function
   function updateHeader() {
     $("#clicks").text(clicks);
     $("#matched").text(matchedPairs);
     $("#left").text(totalPairs - matchedPairs);
   }
+// Update function
+// How the status section is calculated and displayed_____________________________________________________
 
   if (window.timer) clearInterval(window.timer);
 
@@ -83,14 +95,20 @@ async function setup() {
     }
   }, 1000);
 
+  // click event logic for card flipping__________________________________________________________________________________________________________________
   $("#game_grid").off("click").on("click", ".card", function () {
     if (isFlipping || isPeekActive) return;
 
-    // EDGE CASE: If already matched or already flipped, ignore
+    // If already matched or already flipped, ignore
     if ($(this).hasClass("flip")) return;
 
+    // How the status section is calculated and displayed_____________________________________________________
+    // Called when an event occurs
     clicks++;
     updateHeader();
+    // Called when an event occurs
+    // How the status section is calculated and displayed_____________________________________________________
+
     $(this).toggleClass("flip");
 
     if (!firstCard) {
@@ -133,9 +151,10 @@ async function setup() {
       }
     }
   });
+  // click event logic for card flipping__________________________________________________________________________________________________________________
 };
 
-
+// click event logic for buttons_________________________________________________________________
 $(document).ready(function () {
   $("#start_btn").on("click", setup);
   $("#reset_btn").on("click", setup);
@@ -162,3 +181,4 @@ $(document).ready(function () {
     $(this).prop("disabled", true); 
   });
 });
+// click event logic for buttons_________________________________________________________________
